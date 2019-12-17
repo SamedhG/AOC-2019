@@ -29,5 +29,32 @@ pub fn p1() -> i64 {
 
 pub fn p2() -> i64 {
     let arr = get_input();
-    arr.iter().fold(0, |acc, x| acc + cumulative_fuel(*x))
+    arr.iter().fold(0, |acc, x| acc + cumulative_fuel(calculate_fuel(*x)))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_calc() {
+        assert_eq!(calculate_fuel(10), 1);
+        assert_eq!(calculate_fuel(9), 1);
+    }
+
+    #[test]
+    fn test_cumulative_calc() {
+        assert_eq!(cumulative_fuel(2), 2);
+        assert_eq!(cumulative_fuel(654), 966);
+    }
+
+    #[test]
+    fn test_p1() {
+        assert_eq!(p1(), 3150224);
+    }
+
+    #[test]
+    fn test_p2() {
+        assert_eq!(p2(), 4722484);
+    }
 }
