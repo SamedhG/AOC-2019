@@ -30,6 +30,21 @@ fn intcode(input: &mut Vec<usize>) {
     }
 }
 
+fn find(input: &Vec<usize>, to_find: usize) -> (usize, usize) {
+    for i in 0..101 {
+        for j in 0..101 {
+            let mut new_input = input.clone();
+            new_input[1] = i;
+            new_input[2] = j;
+            intcode(&mut new_input);
+            if new_input[0] == to_find {
+                return (i, j);
+            }
+        }
+    }
+    panic!("did not find value in defined range");
+}
+
 // Day 2 uses comma seperated numbers
 fn get_input() -> Box<Vec<usize>> {
     let mut file = File::open("resources/day2.txt").unwrap();
@@ -47,6 +62,12 @@ pub fn p1() -> usize {
     input[0]
 }
 
+pub fn p2(search: usize) -> usize {
+    let input = get_input();
+    let (arg1, arg2) = find(&input, search);
+    (100 * arg1) + arg2
+}
+
 #[cfg(test)]
 mod tests {
 
@@ -54,6 +75,12 @@ mod tests {
 
     #[test]
     fn test_p1() {
-        assert_eq!(p1(), 2842648)
+        assert_eq!(p1(), 2842648);
+    }
+
+    #[test]
+    fn test_p2() {
+        assert_eq!(p2(2842648), 1202);
+        assert_eq!(p2(19690720), 9074);
     }
 }
