@@ -1,3 +1,4 @@
+use std::collections::HashSet;
 use std::fs::File;
 use std::io::prelude::*;
 
@@ -25,6 +26,46 @@ fn convert(s: &str) -> Box<Wire> {
     Box::new(Wire(d, size))
 }
 
+fn find_coords(wires: Box<Vec<Box<Wire>>>) -> Box<HashSet<(i64, i64)>> {
+    let mut points = HashSet::new();
+    let mut x = 0;
+    let mut y = 0;
+    for wire in *wires {
+        match (*wire).0 {
+            Direction::Right => {
+                for _ in 0..wire.1 {
+                    x += 1;
+                    points.insert((x, y));
+                }
+            }
+            Direction::Left => {
+                for _ in 0..wire.1 {
+                    x -= 1;
+                    points.insert((x, y));
+                }
+            }
+            Direction::Up => {
+                for _ in 0..wire.1 {
+                    y += 1;
+                    points.insert((x, y));
+                }
+            }
+            Direction::Down => {
+                for _ in 0..wire.1 {
+                    y -= 1;
+                    points.insert((x, y));
+                }
+            }
+        }
+    }
+    Box::new(points)
+}
+
+fn manhattan_distance(point: (i64, i64)) -> i64 {
+    let (x, y) = point;
+    x.abs() + y.abs()
+}
+
 fn get_input() -> (Box<Vec<Box<Wire>>>, Box<Vec<Box<Wire>>>) {
     let mut file = File::open("resources/day3.txt").unwrap();
     let mut input = String::new();
@@ -37,10 +78,15 @@ fn get_input() -> (Box<Vec<Box<Wire>>>, Box<Vec<Box<Wire>>>) {
     (w1, w2)
 }
 
-pub fn p1() -> usize {
+pub fn p1() -> i64 {
     let input = get_input();
-    println!("{:?}", input);
-    3
+    let wire1 = find_coords(input.0);
+    let wire2 = find_coords(input.1);
+    wire1
+        .intersection(&wire2)
+        .map(|x| manhattan_distance(*x))
+        .min()
+        .unwrap()
 }
 
 #[cfg(test)]
@@ -50,6 +96,6 @@ mod tests {
 
     #[test]
     fn test_p1() {
-        assert_eq!(p1(), 2842648);
+        assert_eq!(p1(), 209);
     }
 }
