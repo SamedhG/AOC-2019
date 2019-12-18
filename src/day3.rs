@@ -75,8 +75,8 @@ fn steps_to_reach(point: (i64, i64), wires: Box<Vec<Box<Wire>>>) -> i64 {
             Direction::Right => {
                 for _ in 0..wire.1 {
                     x += 1;
-                    steps+=1;
-                    if (x,y) == point {
+                    steps += 1;
+                    if (x, y) == point {
                         return steps;
                     }
                 }
@@ -84,8 +84,8 @@ fn steps_to_reach(point: (i64, i64), wires: Box<Vec<Box<Wire>>>) -> i64 {
             Direction::Left => {
                 for _ in 0..wire.1 {
                     x -= 1;
-                    steps+=1;
-                    if (x,y) == point {
+                    steps += 1;
+                    if (x, y) == point {
                         return steps;
                     }
                 }
@@ -93,8 +93,8 @@ fn steps_to_reach(point: (i64, i64), wires: Box<Vec<Box<Wire>>>) -> i64 {
             Direction::Up => {
                 for _ in 0..wire.1 {
                     y += 1;
-                    steps+=1;
-                    if (x,y) == point {
+                    steps += 1;
+                    if (x, y) == point {
                         return steps;
                     }
                 }
@@ -102,8 +102,8 @@ fn steps_to_reach(point: (i64, i64), wires: Box<Vec<Box<Wire>>>) -> i64 {
             Direction::Down => {
                 for _ in 0..wire.1 {
                     y -= 1;
-                    steps+=1;
-                    if (x,y) == point {
+                    steps += 1;
+                    if (x, y) == point {
                         return steps;
                     }
                 }
